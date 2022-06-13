@@ -16,8 +16,10 @@
     button))
 
 (defn navigation-component []
-  (ss/grid-panel :columns 2
+  (ss/grid-panel :columns 3
                  :items [(str "  Question number: " (:question-counter (state/get-state)))
+                         (str "Category: " (get-in (state/get-state) 
+                                                   [:current-question :category]))
                          (next-question-component)]))
 
 (defn question-component [question]
@@ -29,7 +31,7 @@
            :font (ssf/font :style #{:bold :italic}
                            :size 24)))
 
-(defn answers-component [correct-answer incorrect-answers]
+(defn get-answer-labels [correct-answer incorrect-answers]
   (let [label-spacing 10
         incorrect-answer-labels (map (fn [answer]
                                        (ss/text :text (str "𝘅 " answer)
@@ -39,17 +41,22 @@
                                                 :wrap-lines? true
                                                 :foreground "#c0392b"
                                                 :font (ssf/font :size 18)))
-                                     incorrect-answers)]
-    (ss/grid-panel :columns 1
-                   :items (into [(ss/text :text (str "✔ " correct-answer)
-                                          :foreground "#16a085"
-                                          :editable? false
-                                          :margin label-spacing
-                                          :multi-line? true
-                                          :wrap-lines? true
-                                          :font (ssf/font :style #{:bold}
-                                                          :size 18))]
-                                incorrect-answer-labels))))
+                                     incorrect-answers)
+        correct-answer-label (ss/text :text (str "✔ " correct-answer)
+                                      :foreground "#16a085"
+                                      :editable? false
+                                      :margin label-spacing
+                                      :multi-line? true
+                                      :wrap-lines? true
+                                      :font (ssf/font :style #{:bold}
+                                                      :size 18))]
+    (-> incorrect-answer-labels
+        (conj correct-answer-label)
+        shuffle)))
+
+(defn answers-component [correct-answer incorrect-answers]
+  (ss/grid-panel :columns 1
+                 :items (get-answer-labels correct-answer incorrect-answers)))
 
 (defn display-next-question! [f]
   (let [{:keys [question correct-answer incorrect-answers]} (state/get-last-question!)]
