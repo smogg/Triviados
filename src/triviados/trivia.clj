@@ -25,7 +25,7 @@
   (replace-several s entities->char))
 
 (defn get-api-question-url [amount]
-  (str api-url "?amount=" amount))
+  (str api-url "?difficulty=easy&amount=" amount))
 
 (defn get-questions [amount]
   (let [url (get-api-question-url amount)
