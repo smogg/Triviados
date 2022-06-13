@@ -7,6 +7,7 @@
 (def entities->char
   {"&quot;" "\""
    "&#039;" "'"
+   "&rsquo;" "'"
    "&amp;" "&"})
 
 (defn map->kws-as-regex [m]
