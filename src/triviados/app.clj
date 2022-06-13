@@ -18,7 +18,7 @@
 (defn navigation-component []
   (ss/grid-panel :columns 3
                  :items [(str "  Question number: " (:question-counter (state/get-state)))
-                         (str "Category: " (get-in (state/get-state) 
+                         (str "Category: " (get-in (state/get-state)
                                                    [:current-question :category]))
                          (next-question-component)]))
 
@@ -33,10 +33,8 @@
 
 (defn prepend-letters-to-labels [labels]
   (doseq [[label letter] (map list labels ["A" "B" "C" "D" "E" "F"])]
-    (ss/config! label :text (str letter ") " (ss/value label)))
-    )
-  labels
-  )
+    (ss/config! label :text (str letter ") " (ss/value label))))
+  labels)
 
 (defn get-answer-labels [correct-answer incorrect-answers]
   (let [label-spacing 10
