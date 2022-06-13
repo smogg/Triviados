@@ -18,7 +18,8 @@
       (swap! !state (fn [state]
                       (-> state
                           (update :questions pop)
-                          (update :question-counter inc))))
+                          (update :question-counter inc)
+                          (assoc :current-question last-question))))
       last-question)
     ;; otherwise, fetch more questions first
     (do
