@@ -31,6 +31,13 @@
            :font (ssf/font :style #{:bold :italic}
                            :size 24)))
 
+(defn prepend-letters-to-labels [labels]
+  (doseq [[label letter] (map list labels ["A" "B" "C" "D" "E" "F"])]
+    (ss/config! label :text (str letter ") " (ss/value label)))
+    )
+  labels
+  )
+
 (defn get-answer-labels [correct-answer incorrect-answers]
   (let [label-spacing 10
         incorrect-answer-labels (map (fn [answer]
@@ -52,7 +59,8 @@
                                                       :size 18))]
     (-> incorrect-answer-labels
         (conj correct-answer-label)
-        shuffle)))
+        shuffle
+        prepend-letters-to-labels)))
 
 (defn answers-component [correct-answer incorrect-answers]
   (ss/grid-panel :columns 1
