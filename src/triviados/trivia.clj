@@ -22,8 +22,7 @@
   (str/replace s (map->kws-as-regex replacements-map) replacements-map))
 
 (defn fix-entities [s]
-  (replace-several s entities->char)
-  )
+  (replace-several s entities->char))
 
 (defn get-api-question-url [amount]
   (str api-url "?amount=" amount))
@@ -36,8 +35,7 @@
                (update :question fix-entities)
                (update :correct-answer fix-entities)
                (update :incorrect-answers (fn [incorrect-answers]
-                                            (map fix-entities incorrect-answers)
-                                            ))))
+                                            (map fix-entities incorrect-answers)))))
          results)))
 
 (comment
